@@ -1,0 +1,168 @@
+Table company_info {
+  id int [pk, increment]
+  name varchar(255)
+  phone varchar(20)
+  email varchar(100)
+  website varchar(255)
+  address text
+  logo_url varchar(500)
+  description text
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table partner_logos {
+  id int [pk, increment]
+  company_id int [ref: > company_info.id]
+  name varchar(255)
+  image_url varchar(500)
+  is_svg boolean
+  order int
+  created_at timestamp
+}
+
+Table service_categories {
+  id int [pk, increment]
+  name varchar(255)
+  slug varchar(255) [unique]
+  description text
+  icon_url varchar(500)
+  order int
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table services {
+  id int [pk, increment]
+  category_id int [ref: > service_categories.id]
+  name varchar(255)
+  slug varchar(255) [unique]
+  description text
+  short_description varchar(500)
+  image_url varchar(500)
+  icon_url varchar(500)
+  parent_id int [ref: > services.id]  // for sub-services
+  order int
+  is_active boolean [default: true]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table projects {
+  id int [pk, increment]
+  title varchar(255)
+  slug varchar(255) [unique]
+  short_description varchar(500)
+  description text
+  thumbnail_url varchar(500)
+  category_id int [ref: > project_categories.id]
+  location varchar(255)
+  start_date date
+  end_date date
+  status varchar(50) [default: 'completed']  // completed, ongoing, planning
+  view_count int [default: 0]
+  is_featured boolean [default: false]
+  order int
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table project_categories {
+  id int [pk, increment]
+  name varchar(255)
+  slug varchar(255) [unique]
+  description text
+  order int
+  created_at timestamp
+}
+
+Table project_gallery_images {
+  id int [pk, increment]
+  project_id int [ref: > projects.id]
+  image_url varchar(500)
+  order int
+  created_at timestamp
+}
+
+Table project_tags {
+  id int [pk, increment]
+  project_id int [ref: > projects.id]
+  tag varchar(100)
+}
+
+Table news_articles {
+  id int [pk, increment]
+  title varchar(255)
+  slug varchar(255) [unique]
+  short_description varchar(500)
+  content text
+  thumbnail_url varchar(500)
+  category_id int [ref: > news_categories.id]
+  author varchar(100)
+  published_at timestamp
+  view_count int [default: 0]
+  is_featured boolean [default: false]
+  is_published boolean [default: true]
+  order int
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table news_categories {
+  id int [pk, increment]
+  name varchar(255)
+  slug varchar(255) [unique]
+  description text
+  order int
+  created_at timestamp
+}
+
+Table news_tags {
+  id int [pk, increment]
+  article_id int [ref: > news_articles.id]
+  tag varchar(100)
+}
+
+Table recruitments {
+  id int [pk, increment]
+  title varchar(255)
+  slug varchar(255) [unique]
+  description text
+  requirements text
+  benefits text
+  location varchar(255)
+  employment_type varchar(50)  // full_time, part_time, contract
+  experience_level varchar(100)
+  salary_range varchar(100)
+  quantity int [default: 1]
+  deadline date
+  is_urgent boolean [default: false]
+  is_published boolean [default: true]
+  view_count int [default: 0]
+  order int
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contacts {
+  id int [pk, increment]
+  name varchar(100)
+  email varchar(100)
+  phone varchar(20)
+  company_name varchar(255)
+  service_interest varchar(255)
+  message text
+  is_read boolean [default: false]
+  created_at timestamp
+}
+
+Table banners {
+  id int [pk, increment]
+  title varchar(255)
+  subtitle varchar(500)
+  image_url varchar(500)
+  link_url varchar(500)
+  order int
+  is_active boolean [default: true]
+  created_at timestamp
+}
